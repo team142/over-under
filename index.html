@@ -12,9 +12,13 @@
     <script>
 
         const KEY = "UNDER_OVER"
+        const formId = "formId"
+        const animation = "jello"
+        const animated = "animated"
+        const totalElementId = "total"
+
         let total = 0
-        let formId = "formId"
-        let animation = "jello"
+
 
         function load() {
             let totalString = localStorage.getItem(this.KEY)
@@ -25,39 +29,44 @@
             }
             render()
 
-            setTimeout(function () {
-                document.getElementById("formId").classList.remove("wobble")
-                document.getElementById("formId").classList.remove("animated")
+            setTimeout(() => {
+                removeClasses(formId, animation, animated)
             }, 500);
-
         }
 
         function render() {
-            document.getElementById("total").innerHTML = total
+            document.getElementById(totalElementId).innerHTML = total
         }
-
 
         function click(amt) {
             total += amt
             save()
             render()
             animate()
-
         }
 
         function animate() {
-            document.getElementById("formId").classList.remove(animation)
-            document.getElementById("formId").classList.remove("animated")
-
-            setTimeout(function () {
-                document.getElementById("formId").classList.add(animation)
-                document.getElementById("formId").classList.add("animated")
+            removeClasses(formId, animation, animated)
+            setTimeout(() => {
+                addClasses(formId, animation, animated)
             }, 500);
-
         }
 
         function save() {
             localStorage.setItem(this.KEY, String(total))
+        }
+
+        function removeClasses(id, ...cl) {
+            const d = document.getElementById(id)
+            for (const item of cl) {
+                d.classList.remove(item);
+            }
+        }
+        function addClasses(id, ...cl) {
+            const d = document.getElementById(id)
+            for (const item of cl) {
+                d.classList.add(item);
+            }
         }
 
         onload = load
