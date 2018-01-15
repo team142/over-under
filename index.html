@@ -1,0 +1,104 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>YoM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <base href="/">
+    <link rel="stylesheet" href="https://bootswatch.com/4/cosmo/bootstrap.min.css">
+
+    <script>
+
+        const KEY = "UNDER_OVER"
+        let total = 0
+
+        function load() {
+            let totalString = localStorage.getItem(this.KEY)
+            if (!isNaN(totalString) && (totalString)) {
+                total = +totalString
+            } else {
+                total = 0
+            }
+            render()
+        }
+
+        function render() {
+            document.getElementById("total").innerHTML = total
+        }
+
+
+        function click(amt) {
+            total += amt
+            save()
+            render()
+        }
+
+        function save() {
+            localStorage.setItem(this.KEY, String(total))
+        }
+
+        onload = load
+
+    </script>
+
+
+
+
+    <body style="margin:0;">
+
+        <div class="container">
+            <br>
+            <br>
+            <div class="row">
+
+                <div class="col-sm">
+
+                </div>
+
+                <div class="col-sm">
+                    <div class="card text-white bg-secondary mb-3" style="">
+                        <div class="card-header">Overtime tracker</div>
+                        <div class="card-body">
+
+
+                            <div style="margin-top: 20px;  display: table; margin: 0 auto;">
+
+
+                                <ul class="pagination ">
+                                    <li class="page-item active">
+                                        <a href="javascript:click(-1)" class="page-link">-1</a>
+                                    </li>
+                                    <li class="page-item active">
+                                        <a href="javascript:click(-0.5)" class="page-link">-0.5</a>
+                                    </li>
+                                    <li class="page-item disabled">
+                                        <a id="total" class="page-link">0</a>
+                                    </li>
+                                    <li class="page-item active">
+                                        <a href="javascript:click(0.5)" class="page-link">+0.5</a>
+                                    </li>
+                                    <li class="page-item active">
+                                        <a href="javascript:click(1)" class="page-link">+1</a>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+                            <p class="card-text">Storage is local</p>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="col-sm">
+
+                </div>
+
+            </div>
+
+        </div>
+    </body>
+
+</html>
