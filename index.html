@@ -13,6 +13,8 @@
 
         const KEY = "UNDER_OVER"
         let total = 0
+        let formId = "formId"
+        let animation = "jello"
 
         function load() {
             let totalString = localStorage.getItem(this.KEY)
@@ -22,6 +24,11 @@
                 total = 0
             }
             render()
+
+            setTimeout(function () {
+                document.getElementById("formId").classList.remove("wobble")
+                document.getElementById("formId").classList.remove("animated")
+            }, 500);
 
         }
 
@@ -34,12 +41,16 @@
             total += amt
             save()
             render()
-            document.getElementById("formId").classList.remove("wobble")
-            document.getElementById("formId").classList.remove("jello")
+            animate()
+
+        }
+
+        function animate() {
+            document.getElementById("formId").classList.remove(animation)
             document.getElementById("formId").classList.remove("animated")
 
             setTimeout(function () {
-                document.getElementById("formId").classList.add("jello")
+                document.getElementById("formId").classList.add(animation)
                 document.getElementById("formId").classList.add("animated")
             }, 500);
 
@@ -56,7 +67,7 @@
 
 
 
-    <body style="margin:0;">
+    <body style="margin:0; background-color: #c7c9cc">
 
         <div class="container">
             <br>
