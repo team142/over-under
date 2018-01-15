@@ -5,8 +5,9 @@
     <title>YoM</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <base href="/">
     <link rel="stylesheet" href="https://bootswatch.com/4/cosmo/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+
 
     <script>
 
@@ -21,6 +22,7 @@
                 total = 0
             }
             render()
+
         }
 
         function render() {
@@ -32,6 +34,15 @@
             total += amt
             save()
             render()
+            document.getElementById("formId").classList.remove("wobble")
+            document.getElementById("formId").classList.remove("jello")
+            document.getElementById("formId").classList.remove("animated")
+
+            setTimeout(function () {
+                document.getElementById("formId").classList.add("jello")
+                document.getElementById("formId").classList.add("animated")
+            }, 500);
+
         }
 
         function save() {
@@ -57,7 +68,7 @@
                 </div>
 
                 <div class="col-sm">
-                    <div class="card text-white bg-secondary mb-3" style="">
+                    <div id="formId" class="card text-white bg-secondary mb-3 animated wobble">
                         <div class="card-header">Overtime tracker</div>
                         <div class="card-body">
 
