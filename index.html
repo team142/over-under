@@ -17,59 +17,71 @@
         const animated = "animated"
         const totalElementId = "total"
 
-        let total = 0
 
-
-        function load() {
-            let totalString = localStorage.getItem(this.KEY)
-            if (!isNaN(totalString) && (totalString)) {
-                total = +totalString
-            } else {
-                total = 0
+        class DOMUtils {
+            static removeClasses(id, ...cl) {
+                const d = document.getElementById(id)
+                for (const item of cl) {
+                    d.classList.remove(item);
+                }
             }
-            render()
 
-            setTimeout(() => {
-                removeClasses(formId, animation, animated)
-            }, 500);
+            static addClasses(id, ...cl) {
+                const d = document.getElementById(id)
+                for (const item of cl) {
+                    d.classList.add(item);
+                }
+            }
+
+            static animate() {
+                DOMUtils.removeClasses(formId, animation, animated)
+                setTimeout(() => {
+                    DOMUtils.addClasses(formId, animation, animated)
+                }, 500);
+            }
+
+            static render(tot) {
+                document.getElementById(totalElementId).innerHTML = tot
+            }
+            
         }
 
-        function render() {
-            document.getElementById(totalElementId).innerHTML = total
-        }
+        class App {
 
-        function click(amt) {
-            total += amt
-            save()
-            render()
-            animate()
-        }
+            constructor() {
+                this.total = 0
+            }
 
-        function animate() {
-            removeClasses(formId, animation, animated)
-            setTimeout(() => {
-                addClasses(formId, animation, animated)
-            }, 500);
-        }
+            load() {
+                let totalString = localStorage.getItem(this.KEY)
+                if (!isNaN(totalString) && (totalString)) {
+                    this.total = +totalString
+                } else {
+                    this.total = 0
+                }
+                DOMUtils.render(this.total)
 
-        function save() {
-            localStorage.setItem(this.KEY, String(total))
-        }
+                setTimeout(() => {
+                    DOMUtils.removeClasses(formId, animation, animated)
+                }, 500);
+            }
 
-        function removeClasses(id, ...cl) {
-            const d = document.getElementById(id)
-            for (const item of cl) {
-                d.classList.remove(item);
+            click(amt) {
+                this.total += amt
+                this.save()
+                DOMUtils.render(this.total)
+                DOMUtils.animate()
+            }
+
+            save() {
+                localStorage.setItem(this.KEY, String(this.total))
             }
         }
-        function addClasses(id, ...cl) {
-            const d = document.getElementById(id)
-            for (const item of cl) {
-                d.classList.add(item);
-            }
-        }
 
-        onload = load
+        const APP = new App();
+        onload = () => {
+            APP.load()
+        }
 
     </script>
 
@@ -98,25 +110,25 @@
 
                                 <ul class="pagination ">
                                     <li class="page-item active">
-                                        <a href="javascript:click(-1)" class="page-link">-1</a>
+                                        <a href="javascript:APP.click(-1)" class="page-link">-1</a>
                                     </li>
                                     <li class="page-item active">
-                                        <a href="javascript:click(-0.5)" class="page-link">-0.5</a>
+                                        <a href="javascript:APP.click(-0.5)" class="page-link">-0.5</a>
                                     </li>
                                     <li class="page-item disabled">
                                         <a id="total" class="page-link">0</a>
                                     </li>
                                     <li class="page-item active">
-                                        <a href="javascript:click(0.5)" class="page-link">+0.5</a>
+                                        <a href="javascript:APP.click(0.5)" class="page-link">+0.5</a>
                                     </li>
                                     <li class="page-item active">
-                                        <a href="javascript:click(1)" class="page-link">+1</a>
+                                        <a href="javascript:APP.click(1)" class="page-link">+1</a>
                                     </li>
                                 </ul>
 
                             </div>
 
-                            <p class="card-text">Storage is local</p>
+                            <p class="card-text"><i>Storage is local</i></p>
                         </div>
                     </div>
 
