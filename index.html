@@ -19,6 +19,7 @@
 
 
         class DOMUtils {
+
             static removeClasses(id, ...cl) {
                 const d = document.getElementById(id)
                 for (const item of cl) {
@@ -43,7 +44,20 @@
             static render(tot) {
                 document.getElementById(totalElementId).innerHTML = tot
             }
-            
+
+        }
+
+        class Persistance {
+
+            static load() {
+                let totalString = localStorage.getItem(this.KEY)
+                return (!isNaN(totalString) && (totalString)) ? +totalString : 0
+            }
+
+            static save(val) {
+                localStorage.setItem(this.KEY, String(val))
+            }
+
         }
 
         class App {
@@ -52,15 +66,9 @@
                 this.total = 0
             }
 
-            load() {
-                let totalString = localStorage.getItem(this.KEY)
-                if (!isNaN(totalString) && (totalString)) {
-                    this.total = +totalString
-                } else {
-                    this.total = 0
-                }
+            startup() {
+                this.total = Persistance.load()
                 DOMUtils.render(this.total)
-
                 setTimeout(() => {
                     DOMUtils.removeClasses(formId, animation, animated)
                 }, 500);
@@ -68,19 +76,16 @@
 
             click(amt) {
                 this.total += amt
-                this.save()
+                Persistance.save(this.total)
                 DOMUtils.render(this.total)
                 DOMUtils.animate()
             }
 
-            save() {
-                localStorage.setItem(this.KEY, String(this.total))
-            }
         }
 
         const APP = new App();
         onload = () => {
-            APP.load()
+            APP.startup()
         }
 
     </script>
@@ -128,7 +133,9 @@
 
                             </div>
 
-                            <p class="card-text"><i>Storage is local</i></p>
+                            <p class="card-text">
+                                <i>Storage is local</i>
+                            </p>
                         </div>
                     </div>
 
